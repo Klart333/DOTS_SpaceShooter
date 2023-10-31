@@ -49,7 +49,6 @@ public struct HitPlayerTag : IComponentData
 [BurstCompile]
 public partial struct HitPlayerSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var notEcb = SystemAPI.GetSingleton<BeginInitializationEntityCommandBufferSystem.Singleton>();
@@ -73,10 +72,8 @@ public struct HurtTag : IComponentData
     public float4 Value;
 }
 
-[BurstCompile]
 public partial struct DisplayHurtSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var notEcb = SystemAPI.GetSingleton<BeginInitializationEntityCommandBufferSystem.Singleton>();
