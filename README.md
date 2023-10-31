@@ -4,7 +4,8 @@ I made the space shooter and wanted to focus on the collision for Performance te
 
 Results from testing are the following:
 
-Simple sqrMagnitude circle collision - Avg. ~1.0ms at 110k Rocks 
+Simple sqrMagnitude circle collision - Avg. ~1.0ms at 110k Rocks
+
 AABB Collision System - Avg. ~1.2ms at 110k Rocks
 
 Which in my mind makes sense, sqrMagnitude is extremely fast on modern CPUs and I'm not too sure of the details but I feel like having four comparisons really hamstrings the AABB. 
