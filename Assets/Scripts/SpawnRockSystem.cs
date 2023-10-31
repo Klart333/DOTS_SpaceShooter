@@ -6,15 +6,26 @@ using UnityEngine;
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial struct SpawnRockSystem : ISystem
 {
+    public static int RockAmount = 0;
+
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<RockSpawnerComponent>();
     }
 
-    [BurstCompile]
+    //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        // Count Rock amount
+        int count = 0;
+        foreach (var kvp in SystemAPI.Query<RockTag>())
+        {
+            count++;
+        }
+        RockAmount = count;
+
+
         var ecb = SystemAPI.GetSingleton<BeginInitializationEntityCommandBufferSystem.Singleton>();
 
         new SpawnRockJob

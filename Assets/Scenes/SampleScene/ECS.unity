@@ -173,7 +173,7 @@ MonoBehaviour:
   MaxFieldDimensions:
     x: 24.98
     y: 15.6
-  RockSpawnRate: 1
+  RockSpawnRate: 2
   RockStartSpawnAmount: 50000
   RockSpawnAmount: 100
   RockMovementSpeedRange:
