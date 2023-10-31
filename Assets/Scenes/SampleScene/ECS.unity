@@ -173,12 +173,12 @@ MonoBehaviour:
   MaxFieldDimensions:
     x: 24.98
     y: 15.6
-  RockSpawnRate: 2
-  RockStartSpawnAmount: 50000
-  RockSpawnAmount: 100
+  RockSpawnRate: 5
+  RockStartSpawnAmount: 5000
+  RockSpawnAmount: 10
   RockMovementSpeedRange:
-    x: 0
-    y: 0
+    x: 4
+    y: 6
   RandomSeed: 100
   RockPrefab: {fileID: 7668972140374634840, guid: 69c0aa77cd60076419f7d8d04e6258b7,
     type: 3}

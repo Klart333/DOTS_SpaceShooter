@@ -16,11 +16,11 @@ public partial struct CollisionSystem : ISystem
         var ecb = notEcb.CreateCommandBuffer(state.WorldUnmanaged);
 
         int count = 0;
-        NativeArray<float3> projectilePositions = new NativeArray<float3>(512, Allocator.TempJob); // Hopefully there's no more than 256 projectiles... Could not find a better solution
+        NativeArray<float3> projectilePositions = new NativeArray<float3>(512, Allocator.TempJob); // Hopefully there's no more than 512 projectiles... Could not find a better solution
         foreach (var projectile in SystemAPI.Query<VelocityMovementAspect>().WithAll<ProjectileTag>())
         {
             projectilePositions[count++] = projectile.LocalTransform.Position;
-            if (count == 256)
+            if (count == 512)
             {
                 break;
             }

@@ -1,2 +1,19 @@
-Simple sqrMagnitude circle collision - Avg. ~1.2ms at 110k Rocks 
+<h>SPACE SHOOTER</h>
+
+I made the space shooter and wanted to focus on the collision for Performance testing. My first approach was to do a simple circular square magnitude distance check. 
+That turned out to work way better than I was expecting it to. I was struggling to find the performance impact of the Collision System. 
+Eventually I clocked it at around 1.0ms at >100k Rocks, which is very fast (imo). At 100k unity is struggling way more rendering all the rocks than me running collision (I tried turning off shadows and other settings on the mesh renderer and turned on GPU Instancing on the material, which I'm sure helped but did not have a very noticable impact). 
+Looking at the suggested AABB I was not really expecting it to go faster; for my circumstances, where all the colliders are circles, I was quite convinced it was hard to beat. 
+
+Results from testing are the following:
+
+Simple sqrMagnitude circle collision - Avg. ~1.0ms at 110k Rocks 
 AABB Collision System - Avg. ~1.2ms at 110k Rocks
+
+Which in my mind makes sense, sqrMagnitude is extremely fast on modern CPUs and I'm not too sure of the details but I feel like having four comparisons really hamstrings the AABB. 
+Of course it's still crazy fast, as it's basically one line of code. I can imagine that the CPU has trouble preloading the code because of all the conditionals.
+
+
+<h>Also</h>
+
+Because I move the world and not the player, checking collision with the player can be very optimized. What I did was compare the absolute value of x and y to the radius of the rock, like a simplified AABB. 
