@@ -16,11 +16,11 @@ public partial struct CollisionSystem : ISystem
         var ecb = notEcb.CreateCommandBuffer(state.WorldUnmanaged);
 
         int count = 0;
-        NativeArray<float3> projectilePositions = new NativeArray<float3>(512, Allocator.TempJob); // Hopefully there's no more than 256 projectiles... Could not find a better solution
+        NativeArray<LocalTransform> projectilePositions = new NativeArray<LocalTransform>(512, Allocator.TempJob); // Hopefully there's no more than 512 projectiles... Could not find a better solution
         foreach (var projectile in SystemAPI.Query<VelocityMovementAspect>().WithAll<ProjectileTag>())
         {
-            projectilePositions[count++] = projectile.LocalTransform.Position;
-            if (count == 256)
+            projectilePositions[count++] = projectile.LocalTransform;
+            if (count == 512)
             {
                 break;
             }
@@ -41,26 +41,39 @@ public partial struct ProjectileCollisionJob : IJobEntity
     public EntityCommandBuffer.ParallelWriter ecb;
 
     [ReadOnly, DeallocateOnJobCompletion]
-    public NativeArray<float3> projectilePositions;
+    public NativeArray<LocalTransform> projectilePositions;
 
     [BurstCompile]
     private void Execute(RockAspect rockAspect, [EntityIndexInQuery] int sortKey)
     {
         for (int i = 0; i < projectilePositions.Length; i++)
         {
-            if (projectilePositions[i].Equals(float3.zero))
+            if (projectilePositions[i].Position.Equals(float3.zero))
             {
                 break;
             }
 
-            float3 diff = rockAspect.LocalTransform.Position - projectilePositions[i];
+            // AABB
+            LocalTransform rock = rockAspect.LocalTransform;
+            LocalTransform projectile = projectilePositions[i];
+
+            if (rock.Position.x < projectile.Position.x + projectile.Scale &&
+                rock.Position.x + rock.Scale > projectile.Position.x &&
+                rock.Position.y < projectile.Position.y + projectile.Scale &&
+                rock.Position.y + rock.Scale > projectile.Position.y)
+            {
+                ecb.DestroyEntity(sortKey, rockAspect.Entity);
+            }
+
+            // Circular Collision
+            /*float3 diff = rockAspect.LocalTransform.Position - projectilePositions[i];
             float sqrMagnitude = diff.x * diff.x + diff.y * diff.y;
 
             float radius = rockAspect.RockScale + 0.075f; // Half the projectiles radius 
             if (sqrMagnitude < radius * radius)
             {
                 ecb.DestroyEntity(sortKey, rockAspect.Entity);
-            }
+            }*/
         }
     }
 }
