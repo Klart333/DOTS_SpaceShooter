@@ -16,6 +16,8 @@ public readonly partial struct VelocityMovementAspect : IAspect
 
     private readonly RefRW<LocalTransform> localTransform;
 
+    public LocalTransform LocalTransform => localTransform.ValueRO;
+
     public void Move(float deltaTime)
     {
         localTransform.ValueRW.Position += rockMovement.ValueRO.Direction * rockMovement.ValueRO.MovementSpeed * deltaTime;

@@ -8,6 +8,8 @@ public class RockSpawnerMono : MonoBehaviour
     public float2 MinFieldDimensions;
     public float2 MaxFieldDimensions;
     public float RockSpawnRate;
+    public int RockStartSpawnAmount;
+    public int RockSpawnAmount;
     public float2 RockMovementSpeedRange;
     public uint RandomSeed;
     public GameObject RockPrefab;
@@ -33,6 +35,8 @@ public class RockSpawnerBaker : Baker<RockSpawnerMono>
             MaxFieldDimensions = authoring.MaxFieldDimensions,
             MinFieldDimensions = authoring.MinFieldDimensions,
             RockSpawnRate = authoring.RockSpawnRate,
+            RockSpawnStartAmount = authoring.RockStartSpawnAmount,
+            RockSpawnAmount = authoring.RockSpawnAmount,
             RockPrefab = GetEntity(authoring.RockPrefab, TransformUsageFlags.Dynamic),
             Timer = 0,
             RockMovementSpeedRange = authoring.RockMovementSpeedRange,

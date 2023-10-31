@@ -17,6 +17,6 @@ public readonly partial struct DistanceDeathAspect : IAspect
 
     public bool ShouldDie()
     {
-        return localTransform.ValueRO.Position.x * localTransform.ValueRO.Position.x + localTransform.ValueRO.Position.y * localTransform.ValueRO.Position.y > 400;
+        return localTransform.ValueRO.Position.x * localTransform.ValueRO.Position.x + localTransform.ValueRO.Position.y * localTransform.ValueRO.Position.y > 300;
     }
 }

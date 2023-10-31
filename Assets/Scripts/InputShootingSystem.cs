@@ -51,6 +51,7 @@ public partial struct InputShootingJob : IJobEntity
 
         ecb.AddComponent(projectile, new WorldMovementTag());
         ecb.AddComponent(projectile, new DistanceDeathTag());
+        ecb.AddComponent(projectile, new ProjectileTag());
 
         ecb.AddComponent(projectile, new VelocityMovementComponent()
         {

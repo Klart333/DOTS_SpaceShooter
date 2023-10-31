@@ -14,9 +14,17 @@ public readonly partial struct InputShootingAspect : IAspect
 
     private readonly RefRO<InputShootingComponent> inputShootingComponent;
 
-    private readonly RefRW<LocalTransform> localTransform;
-
     public Entity ProjectilePrefab => inputShootingComponent.ValueRO.ProjectilePrefab;
     public float ProjectileSpeed => inputShootingComponent.ValueRO.ProjectileSpeed;
     public float Scale => inputShootingComponent.ValueRO.Scale;
+}
+
+public struct ProjectileTag : IComponentData
+{
+
+}
+
+public struct RockTag : IComponentData
+{
+
 }

@@ -29,7 +29,7 @@ public class InputManager : Singleton<InputManager>
     {
         get
         {
-            return Fire.WasPerformedThisFrame();
+            return Fire.ReadValue<float>() > 0;
         }
     }
 

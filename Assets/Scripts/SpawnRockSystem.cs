@@ -20,8 +20,8 @@ public partial struct SpawnRockSystem : ISystem
         new SpawnRockJob
         {
             DeltaTime = Time.deltaTime,
-            ecb = ecb.CreateCommandBuffer(state.WorldUnmanaged),
-        }.Schedule();
+            ecb = ecb.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+        }.ScheduleParallel();
     }
 }
 
@@ -29,25 +29,31 @@ public partial struct SpawnRockSystem : ISystem
 public partial struct SpawnRockJob : IJobEntity
 {
     public float DeltaTime;
-    public EntityCommandBuffer ecb;
+    public EntityCommandBuffer.ParallelWriter ecb;
 
     [BurstCompile]
-    private void Execute(RockSpawnerAspect rockSpawnerAspect)
+    private void Execute(RockSpawnerAspect rockSpawnerAspect, [EntityIndexInQuery] int sortKey)
     {
-        if (rockSpawnerAspect.ShouldSpawn(DeltaTime))
+        int amountToSpawn = rockSpawnerAspect.GetSpawnAmount();
+        if (amountToSpawn > 10 || rockSpawnerAspect.ShouldSpawn(DeltaTime))
         {
-            var rock = ecb.Instantiate(rockSpawnerAspect.RockPrefab);
-
-            var transform = rockSpawnerAspect.GetRandomTransform();
-            ecb.SetComponent(rock, transform);
-
-            ecb.AddComponent(rock, new WorldMovementTag());
-            ecb.AddComponent(rock, new DistanceDeathTag());
-            ecb.AddComponent(rock, new VelocityMovementComponent()
+            for (int i = 0; i < amountToSpawn; i++)
             {
-                Direction = rockSpawnerAspect.GetDirectionToCentre(transform.Position),
-                MovementSpeed = rockSpawnerAspect.GetMovementSpeed(transform.Scale),
-            });
+                var rock = ecb.Instantiate(sortKey, rockSpawnerAspect.RockPrefab);
+
+                var transform = rockSpawnerAspect.GetRandomTransform();
+                ecb.SetComponent(sortKey, rock, transform);
+
+                ecb.AddComponent(sortKey, rock, new WorldMovementTag());
+                ecb.AddComponent(sortKey, rock, new DistanceDeathTag());
+                ecb.AddComponent(sortKey, rock, new RockTag());
+
+                ecb.AddComponent(sortKey, rock, new VelocityMovementComponent()
+                {
+                    Direction = rockSpawnerAspect.GetDirectionToCentre(transform.Position),
+                    MovementSpeed = rockSpawnerAspect.GetMovementSpeed(transform.Scale),
+                });
+            }
         }
     }
 }

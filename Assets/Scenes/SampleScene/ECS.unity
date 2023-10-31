@@ -173,10 +173,12 @@ MonoBehaviour:
   MaxFieldDimensions:
     x: 24.98
     y: 15.6
-  RockSpawnRate: 2
+  RockSpawnRate: -1
+  RockStartSpawnAmount: 10000
+  RockSpawnAmount: 10
   RockMovementSpeedRange:
-    x: 4
-    y: 6
+    x: 1
+    y: 2
   RandomSeed: 100
   RockPrefab: {fileID: 7668972140374634840, guid: 69c0aa77cd60076419f7d8d04e6258b7,
     type: 3}
@@ -248,7 +250,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071063823}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2124705421725058983, guid: aa9d05958087a784d88fe7bdf053e301, type: 3}
 --- !u!4 &2071063826
 Transform:
   m_ObjectHideFlags: 0
@@ -278,5 +280,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 7740589157234808468, guid: ec6ce10cc8e8be14c9c737ba28fe91ca,
     type: 3}
-  ProjectileSpeed: 10
+  ProjectileSpeed: 20
   Scale: 0.15

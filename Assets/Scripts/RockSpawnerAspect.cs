@@ -89,4 +89,12 @@ public readonly partial struct RockSpawnerAspect : IAspect
     {
         return randomComponent.ValueRO.RandomValue.NextFloat(rockSpawnerProperties.ValueRO.RockMovementSpeedRange.x, rockSpawnerProperties.ValueRO.RockMovementSpeedRange.y) * (1.0f / scale);
     }
+
+    public int GetSpawnAmount()
+    {
+        int amount = rockSpawnerProperties.ValueRO.RockSpawnStartAmount;
+        rockSpawnerProperties.ValueRW.RockSpawnStartAmount = rockSpawnerProperties.ValueRO.RockSpawnAmount;
+
+        return amount;
+    }
 }
